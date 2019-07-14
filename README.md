@@ -60,8 +60,6 @@ private val startDestinations = mapOf(
 )
 ```
 
-For further information please review the sample app code.
+special thanks to Reza Mollemi
 
-<img src="https://github.com/moallemi/MultiNavHost/blob/master/.github/demo.gif?raw=true" width="540">
-
-
+this project fork of https://github.com/moallemi/MultiNavHost with multiple changes

@@ -23,7 +23,6 @@ class TabManager(private val mainActivity: MainActivity) {
     private var currentTabId: Int = R.id.navigation_home
     var currentController: NavController? = null
     private var tabHistory = TabHistory().apply { push(R.id.navigation_home) }
-
     val navHomeController: NavController by lazy {
         mainActivity.findNavController(R.id.homeTab).apply {
             graph = navInflater.inflate(R.navigation.navigation_graph_main).apply {
@@ -45,6 +44,7 @@ class TabManager(private val mainActivity: MainActivity) {
             }
         }
     }
+
 
     private val homeTabContainer: View by lazy { mainActivity.homeTabContainer }
     private val dashboardTabContainer: View by lazy { mainActivity.dashboardTabContainer }
@@ -85,17 +85,21 @@ class TabManager(private val mainActivity: MainActivity) {
 
     fun switchTab(tabId: Int, addToHistory: Boolean = true) {
         currentTabId = tabId
-
         when (tabId) {
             R.id.navigation_home -> {
                 currentController = navHomeController
+                tabHistory.clear()
+                mainActivity.changeToolbarIcon(false)
                 invisibleTabContainerExcept(homeTabContainer)
+
             }
             R.id.navigation_dashboard -> {
+                mainActivity.changeToolbarIcon(true)
                 currentController = navDashboardController
                 invisibleTabContainerExcept(dashboardTabContainer)
             }
             R.id.navigation_notifications -> {
+                mainActivity.changeToolbarIcon(true)
                 currentController = navNotificationsController
                 invisibleTabContainerExcept(notificationsTabContainer)
             }
