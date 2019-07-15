@@ -1,11 +1,12 @@
 package me.moallemi.multinavhost.navigation
 
 import java.io.Serializable
+import java.util.AbstractCollection
 import java.util.ArrayList
 
 class TabHistory : Serializable {
 
-    private val stack: ArrayList<Int> = ArrayList()
+    public  val stack = mutableMapOf<String, Int>()
 
     private val isEmpty: Boolean
         get() = stack.size == 0
@@ -13,16 +14,20 @@ class TabHistory : Serializable {
     val size: Int
         get() = stack.size
 
-    fun push(entry: Int) {
-        stack.add(entry)
+    @Synchronized fun push(type: String, entry: Int) {
+        stack.remove(type)
+        stack.put(type, entry)
     }
 
-    fun popPrevious(): Int {
+    @Synchronized fun popPrevious(): Int {
         var entry = -1
+        var key: String
 
         if (!isEmpty) {
-            entry = stack[stack.size - 2]
-            stack.removeAt(stack.size - 2)
+            entry = (stack.values as AbstractCollection).toArray()[stack.values.size - 2] as Int
+            key = (stack.keys as AbstractCollection<*>).toArray()[stack.keys.size - 1] as String
+            if (key != "navigation_home")
+                stack.remove(key)
         }
         return entry
     }

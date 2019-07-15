@@ -22,7 +22,7 @@ class TabManager(private val mainActivity: MainActivity) {
     )
     private var currentTabId: Int = R.id.navigation_home
     var currentController: NavController? = null
-    private var tabHistory = TabHistory().apply { push(R.id.navigation_home) }
+    private var tabHistory = TabHistory().apply { push("navigation_home",R.id.navigation_home) }
     val navHomeController: NavController by lazy {
         mainActivity.findNavController(R.id.homeTab).apply {
             graph = navInflater.inflate(R.navigation.navigation_graph_main).apply {
@@ -66,7 +66,7 @@ class TabManager(private val mainActivity: MainActivity) {
         currentController?.navigateUp()
     }
 
-    fun onBackPressed() {
+    @Synchronized  fun onBackPressed() {
         currentController?.let {
             if (it.currentDestination == null || it.currentDestination?.id == startDestinations.getValue(currentTabId)) {
                 if (tabHistory.size > 1) {
@@ -83,29 +83,34 @@ class TabManager(private val mainActivity: MainActivity) {
         }
     }
 
-    fun switchTab(tabId: Int, addToHistory: Boolean = true) {
+    @Synchronized fun switchTab(tabId: Int, addToHistory: Boolean = true) {
         currentTabId = tabId
+        var tabName: String ="null"
         when (tabId) {
             R.id.navigation_home -> {
                 currentController = navHomeController
                 tabHistory.clear()
+                tabHistory.push("navigation_home",R.id.navigation_home)
                 mainActivity.changeToolbarIcon(false)
+                tabName = "navigation_home"
                 invisibleTabContainerExcept(homeTabContainer)
 
             }
             R.id.navigation_dashboard -> {
                 mainActivity.changeToolbarIcon(true)
+                tabName = "navigation_dashboard"
                 currentController = navDashboardController
                 invisibleTabContainerExcept(dashboardTabContainer)
             }
             R.id.navigation_notifications -> {
                 mainActivity.changeToolbarIcon(true)
+                tabName = "navigation_notifications"
                 currentController = navNotificationsController
                 invisibleTabContainerExcept(notificationsTabContainer)
             }
         }
         if (addToHistory) {
-            tabHistory.push(tabId)
+            tabHistory.push(tabName,tabId)
         }
     }
 

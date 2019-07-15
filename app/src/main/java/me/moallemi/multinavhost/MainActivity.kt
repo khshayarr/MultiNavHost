@@ -46,6 +46,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 
     override fun onBackPressed() {
         tabManager.onBackPressed()
+
     }
 
     override fun onNavigationItemSelected(menuItem: MenuItem): Boolean {
