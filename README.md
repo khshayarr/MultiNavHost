@@ -63,3 +63,4 @@ private val startDestinations = mapOf(
 special thanks to Reza Mollemi
 
 this project fork of https://github.com/moallemi/MultiNavHost with multiple changes
+on fragment Stack Structure and onBackPressed business
