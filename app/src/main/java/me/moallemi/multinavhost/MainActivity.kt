@@ -11,6 +11,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_main.bottomNavigationView
 import me.moallemi.multinavhost.navigation.TabManager
 
+
 class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener {
     var toolbar: Toolbar? = null
     private val tabManager: TabManager by lazy { TabManager(this) }
@@ -91,5 +92,6 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
             else -> super.onOptionsItemSelected(item)
         }
     }
+
 
 }
