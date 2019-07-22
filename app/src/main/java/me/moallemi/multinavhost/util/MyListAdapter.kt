@@ -13,9 +13,8 @@ class MyListAdapter(private val context: Activity, private val id: Array<String>
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val inflater = context.layoutInflater
         val rowView = inflater.inflate(R.layout.custom_list, null, true) //To change body of created functions use File | Settings | File Templates.
-        holder?.emailText?.text=email[position]
-        holder?.nameText?.text=name[position]
-        holder?.idText?.text=id[position]
+        holder.isRecyclable
+        holder.bindItems(id[position],email[position],name[position])
     }
 
     override fun getItemCount(): Int {
@@ -30,10 +29,14 @@ class MyListAdapter(private val context: Activity, private val id: Array<String>
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-
+        fun bindItems(id : String,email: String,name :String) {
             val idText = itemView.findViewById(R.id.textViewId) as TextView
             val nameText = itemView.findViewById(R.id.textViewName) as TextView
             val emailText = itemView.findViewById(R.id.textViewEmail) as TextView
+            idText.text=id
+            nameText.text=name
+            emailText.text=email
+        }
     }
 
 
