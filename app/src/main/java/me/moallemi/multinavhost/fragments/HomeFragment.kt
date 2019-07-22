@@ -27,16 +27,6 @@ class HomeFragment : BaseFragment() {
     var mAdapter: ListAdapter? = null
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_home, container, false)
-
-
-
-        // only create and set a new adapter if there isn't already one  rv_animal_list.layoutManager = LinearLayoutManager(this)
-        //
-        //        // You can use GridLayoutManager if you want multiple columns. Enter the number of columns as a parameter.
-        ////        rv_animal_list.layoutManager = GridLayoutManager(this, 2)
-        //
-        //        // Access the RecyclerView Adapter and load the data into it
-        //        rv_animal_list.adapter = AnimalAdapter(animals, this)
         return view;
     }
 

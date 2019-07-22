@@ -1,15 +1,12 @@
 package me.moallemi.multinavhost.util
 
 import android.app.Activity
-import android.app.PendingIntent.getActivity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import me.moallemi.multinavhost.R
-import me.moallemi.multinavhost.fragments.BaseViewHolder
 
 class MyListAdapter(private val context: Activity, private val id: Array<String>, private val name: Array<String>, private val email: Array<String>)
     : RecyclerView.Adapter<MyListAdapter.ViewHolder>() {
