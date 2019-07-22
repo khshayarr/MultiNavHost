@@ -21,11 +21,11 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         setContentView(R.layout.activity_main)
         bottomNavigationView.setOnNavigationItemSelectedListener(this)
 
-        toolbar = findViewById(R.id.toolbar2) as Toolbar
+      /*  toolbar = findViewById(R.id.toolbar2) as Toolbar
         setSupportActionBar(toolbar)
         toolbar!!.setNavigationOnClickListener() {
             onBackPressed()
-        }
+        }*/
         if (savedInstanceState == null) {
             tabManager.currentController = tabManager.navHomeController
         }

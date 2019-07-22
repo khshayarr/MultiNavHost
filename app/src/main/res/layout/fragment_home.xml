@@ -13,7 +13,7 @@
         <TableRow>
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_column="1"
                 android:text="User Id" />
@@ -70,11 +70,10 @@
         android:layout_width="wrap_content"
         android:layout_height="350sp">
 
-        <androidx.recyclerview.widget.RecyclerView
+        <androidx.recyclerview.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/list_recycler_view"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            xmlns:android="http://schemas.android.com/apk/res/android">
+            android:layout_height="match_parent">
 
         </androidx.recyclerview.widget.RecyclerView>
     </LinearLayout>
@@ -87,24 +86,28 @@
         android:orientation="horizontal">
 
         <Button
+            android:id="@+id/saverecord"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="saveRecord"
             android:text="Save" />
 
         <Button
-            android:layout_width="wrap_content"
+            android:id="@+id/viewrecord"
             android:layout_height="wrap_content"
             android:onClick="viewRecord"
-            android:text="View" />
+            android:text="View"
+            android:layout_width="wrap_content" />
 
         <Button
+            android:id="@+id/updaterecord"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="updateRecord"
             android:text="Update" />
 
         <Button
+            android:id="@+id/deleterecord"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="deleteRecord"

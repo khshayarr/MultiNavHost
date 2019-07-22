@@ -27,8 +27,8 @@ class HomeFragment : BaseFragment() {
     var mAdapter: ListAdapter? = null
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_home, container, false)
-        mListRecyclerView = view.findViewById(R.id.list_recycler_view);
-        mListRecyclerView!!.setLayoutManager(LinearLayoutManager(getActivity()));
+
+
 
         // only create and set a new adapter if there isn't already one  rv_animal_list.layoutManager = LinearLayoutManager(this)
         //
@@ -42,8 +42,23 @@ class HomeFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        mListRecyclerView = view.findViewById(R.id.list_recycler_view);
+        mListRecyclerView!!.setLayoutManager(LinearLayoutManager(getActivity()));
+        saverecord.setOnClickListener(){
+            saveRecord(view)
 
-/*
+        }
+        viewrecord.setOnClickListener(){
+           mListRecyclerView?.adapter= viewRecord(view)
+
+        }
+        deleterecord.setOnClickListener(){
+            deleteRecord(view)
+        }
+        updaterecord.setOnClickListener(){
+            updateRecord(view)
+        }
+        /*
         buttonNextPage.setOnClickListener {
             val action = NavigationGraphMainDirections.actionGlobalPageFragment(1, "HomeFragment")
             view.findNavController().navigate(action)
@@ -98,6 +113,7 @@ class HomeFragment : BaseFragment() {
             adapter = ListAdapter(myListAdapter)
         }*/
         val myListAdapter = MyListAdapter(getActivity()!!, empArrayId, empArrayName, empArrayEmail)
+
         return myListAdapter
     }
 
