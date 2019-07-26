@@ -1,3 +1,3 @@
-package me.moallemi.multinavhost.model
+package me.yadmand.instaonmvvm.data
 
 data class EmpModelClass (var userId: Int, val userName:String , val userEmail: String)

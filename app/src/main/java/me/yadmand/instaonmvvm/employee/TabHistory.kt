@@ -1,8 +1,7 @@
-package me.moallemi.multinavhost.navigation
+package me.yadmand.instaonmvvm.employee
 
 import java.io.Serializable
 import java.util.AbstractCollection
-import java.util.ArrayList
 
 class TabHistory : Serializable {
 

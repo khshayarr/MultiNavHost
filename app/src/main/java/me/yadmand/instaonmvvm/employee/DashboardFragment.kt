@@ -1,4 +1,4 @@
-package me.moallemi.multinavhost.fragments
+package me.yadmand.instaonmvvm.employee
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,8 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.findNavController
 import kotlinx.android.synthetic.main.fragment_dashboard.buttonNextPage
-import me.moallemi.multinavhost.NavigationGraphMainDirections
-import me.moallemi.multinavhost.R
+import me.yadmand.instaonmvvm.NavigationGraphMainDirections
+import me.yadmand.instaonmvvm.R
 
 class DashboardFragment : BaseFragment() {
 

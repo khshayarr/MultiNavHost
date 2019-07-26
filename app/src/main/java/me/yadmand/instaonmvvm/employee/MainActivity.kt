@@ -1,4 +1,4 @@
-package me.moallemi.multinavhost
+package me.yadmand.instaonmvvm.employee
 
 import android.content.Intent
 import android.os.Bundle
@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_main.bottomNavigationView
-import me.moallemi.multinavhost.navigation.TabManager
+import me.yadmand.instaonmvvm.R
 
 
 class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener {

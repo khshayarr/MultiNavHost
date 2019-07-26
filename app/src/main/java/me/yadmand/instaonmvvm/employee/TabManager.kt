@@ -1,4 +1,4 @@
-package me.moallemi.multinavhost.navigation
+package me.yadmand.instaonmvvm.employee
 
 import android.content.Intent
 import android.os.Bundle
@@ -10,8 +10,7 @@ import kotlinx.android.synthetic.main.activity_main.bottomNavigationView
 import kotlinx.android.synthetic.main.activity_main.dashboardTabContainer
 import kotlinx.android.synthetic.main.activity_main.homeTabContainer
 import kotlinx.android.synthetic.main.activity_main.notificationsTabContainer
-import me.moallemi.multinavhost.MainActivity
-import me.moallemi.multinavhost.R
+import me.yadmand.instaonmvvm.R
 
 class TabManager(private val mainActivity: MainActivity) {
 

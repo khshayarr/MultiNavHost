@@ -1,4 +1,4 @@
-package me.moallemi.multinavhost.fragments
+package me.yadmand.instaonmvvm.employee
 
 import android.content.Context
 import android.content.DialogInterface
@@ -11,15 +11,18 @@ import android.widget.ListAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.fragment_home.*
-import me.moallemi.multinavhost.R
-import me.moallemi.multinavhost.model.EmpModelClass
-import me.moallemi.multinavhost.util.DatabaseHandler
-import me.moallemi.multinavhost.util.MyListAdapter
+import me.yadmand.instaonmvvm.R
+import androidx.lifecycle.ViewModelProviders
+import me.yadmand.instaonmvvm.util.MyListAdapter
 
 import androidx.recyclerview.widget.RecyclerView
-
+import me.yadmand.instaonmvvm.data.DatabaseHandler
+import me.yadmand.instaonmvvm.data.EmpModelClass
+import me.yadmand.instaonmvvm.util.Injector
 
 
 class HomeFragment : BaseFragment() {
@@ -57,13 +60,14 @@ class HomeFragment : BaseFragment() {
 
     //method for saving records in database
     fun saveRecord(view: View) {
-
+        val factory = Injector.provideEmpViewModelFactory(getActivity()!!)
+        val viewModel = ViewModelProviders.of(this, factory)
+                .get(EmpViewModel::class.java)
         val id = u_id.text.toString()
         val name = u_name.text.toString()
         val email = u_email.text.toString()
-        val databaseHandler: DatabaseHandler = DatabaseHandler(getActivity())
         if (id.trim() != "" && name.trim() != "" && email.trim() != "") {
-            val status = databaseHandler.addEmployee(EmpModelClass(Integer.parseInt(id), name, email))
+            val status = viewModel.addEmp(EmpModelClass(Integer.parseInt(id), name, email))
             if (status > -1) {
                 Toast.makeText(getActivity(), "record save", Toast.LENGTH_LONG).show()
                 u_id.text.clear()
@@ -79,29 +83,21 @@ class HomeFragment : BaseFragment() {
     //method for read records from database in ListView
     fun  viewRecord (view: View) :MyListAdapter {
         //creating the instance of DatabaseHandler class
-        val context : FragmentActivity? = getActivity()
-        val databaseHandler: DatabaseHandler = DatabaseHandler(context)
-        //calling the viewEmployee method of DatabaseHandler class to read the records
-        val emp: List<EmpModelClass> = databaseHandler.viewEmployee()
-        val empArrayId = Array<String>(emp.size) { "0" }
-        val empArrayName = Array<String>(emp.size) { "null" }
-        val empArrayEmail = Array<String>(emp.size) { "null" }
+        val factory = Injector.provideEmpViewModelFactory(getActivity()!!)
+        val viewModel = ViewModelProviders.of(this, factory)
+                .get(EmpViewModel::class.java)
+        val empArrayId = arrayOf<String>()
+        val empArrayName = arrayOf<String>()
+        val empArrayEmail = arrayOf<String>()
         var index = 0
-        for (e in emp) {
-            empArrayId[index] = e.userId.toString()
-            empArrayName[index] = e.userName
-            empArrayEmail[index] = e.userEmail
+        viewModel.getEmp().observe(this, Observer { emp ->
+            val stringBuilder = StringBuilder()
+            empArrayId[index] = emp.userId.toString()
+            empArrayName[index] = emp.userName
+            empArrayEmail[index] = emp.userEmail
             index++
-        }
-        //creating custom ArrayAdapter
-       /* val myListAdapter = MyListAdapter(this, empArrayId, empArrayName, empArrayEmail)
-        list_recycler_view.apply {
-            // set a LinearLayoutManager to handle Android
-            // RecyclerView behavior
-            layoutManager = LinearLayoutManager(activity)
-            // set the custom adapter to the RecyclerView
-            adapter = ListAdapter(myListAdapter)
-        }*/
+
+        })
         val myListAdapter = MyListAdapter(getActivity()!!, empArrayId, empArrayName, empArrayEmail)
 
         return myListAdapter
@@ -109,6 +105,9 @@ class HomeFragment : BaseFragment() {
 
     //method for updating records based on user id
     fun updateRecord(view: View) {
+        val factory = Injector.provideEmpViewModelFactory(getActivity()!!)
+        val viewModel = ViewModelProviders.of(this, factory)
+                .get(EmpViewModel::class.java)
         val dialogBuilder = AlertDialog.Builder(getActivity()!!)
         val inflater = this.layoutInflater
         val dialogView = inflater.inflate(R.layout.update_dialog, null)
@@ -127,10 +126,10 @@ class HomeFragment : BaseFragment() {
             val updateEmail = edtEmail.text.toString()
             //creating the instance of DatabaseHandler class
             val context: FragmentActivity? = getActivity()
-            val databaseHandler: DatabaseHandler = DatabaseHandler(context)
+
             if (updateId.trim() != "" && updateName.trim() != "" && updateEmail.trim() != "") {
                 //calling the updateEmployee method of DatabaseHandler class to update record
-                val status = databaseHandler.updateEmployee(EmpModelClass(Integer.parseInt(updateId), updateName, updateEmail))
+                val status = viewModel.updateEmp(EmpModelClass(Integer.parseInt(updateId), updateName, updateEmail))
                 if (status > -1) {
                     Toast.makeText(getActivity(), "record update", Toast.LENGTH_LONG).show()
                 }
@@ -148,6 +147,9 @@ class HomeFragment : BaseFragment() {
 
     //method for deleting records based on id
     fun deleteRecord(view: View) {
+        val factory = Injector.provideEmpViewModelFactory(getActivity()!!)
+        val viewModel = ViewModelProviders.of(this, factory)
+                .get(EmpViewModel::class.java)
         val context: Context? = getActivity()
         //creating AlertDialog for taking user id
         val dialogBuilder = AlertDialog.Builder(context!!)
@@ -162,10 +164,10 @@ class HomeFragment : BaseFragment() {
 
             val deleteId = dltId.text.toString()
             //creating the instance of DatabaseHandler class
-            val databaseHandler: DatabaseHandler = DatabaseHandler(getActivity()!!)
+
             if (deleteId.trim() != "") {
                 //calling the deleteEmployee method of DatabaseHandler class to delete record
-                val status = databaseHandler.deleteEmployee(EmpModelClass(Integer.parseInt(deleteId), "", ""))
+                val status = viewModel.deleteEmp(EmpModelClass(Integer.parseInt(deleteId), "", ""))
                 if (status > -1) {
                     Toast.makeText(getActivity(), "record deleted", Toast.LENGTH_LONG).show()
                 }

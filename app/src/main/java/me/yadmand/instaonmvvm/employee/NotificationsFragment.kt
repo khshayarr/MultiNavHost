@@ -1,4 +1,4 @@
-package me.moallemi.multinavhost.fragments
+package me.yadmand.instaonmvvm.employee
 
 import android.content.Context
 import android.content.SharedPreferences
@@ -7,7 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import kotlinx.android.synthetic.main.fragment_notifications.*
-import me.moallemi.multinavhost.R
+import me.yadmand.instaonmvvm.R
 
 class NotificationsFragment : BaseFragment() {
     private val sharedPrefFile = "kotlinsharedpreference"

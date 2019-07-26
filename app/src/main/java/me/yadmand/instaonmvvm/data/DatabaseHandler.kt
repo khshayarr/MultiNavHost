@@ -1,4 +1,4 @@
-package me.moallemi.multinavhost.util
+package me.yadmand.instaonmvvm.data
 
 import android.content.ContentValues
 import android.database.Cursor
@@ -6,7 +6,6 @@ import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteException
 import android.database.sqlite.SQLiteOpenHelper
 import androidx.fragment.app.FragmentActivity
-import me.moallemi.multinavhost.model.EmpModelClass
 
 class DatabaseHandler(context: FragmentActivity?): SQLiteOpenHelper(context,DATABASE_NAME,null,DATABASE_VERSION) {
     companion object {

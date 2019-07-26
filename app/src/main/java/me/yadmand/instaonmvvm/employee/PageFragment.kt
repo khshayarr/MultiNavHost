@@ -1,4 +1,4 @@
-package me.moallemi.multinavhost.fragments
+package me.yadmand.instaonmvvm.employee
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,8 +8,9 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import kotlinx.android.synthetic.main.fragment_page.buttonNextPage
 import kotlinx.android.synthetic.main.fragment_page.message
-import me.moallemi.multinavhost.NavigationGraphMainDirections
-import me.moallemi.multinavhost.R
+import me.yadmand.instaonmvvm.NavigationGraphMainDirections
+import me.yadmand.instaonmvvm.R
+import me.yadmand.instaonmvvm.fragments.PageFragmentArgs
 
 class PageFragment : BaseFragment() {
 
