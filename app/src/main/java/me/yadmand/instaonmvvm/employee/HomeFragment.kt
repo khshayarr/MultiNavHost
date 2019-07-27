@@ -41,6 +41,12 @@ class HomeFragment : BaseFragment() {
         }
         viewrecord.setOnClickListener(){
            mListRecyclerView?.adapter= viewRecord(view)
+            (mListRecyclerView?.adapter as MyListAdapter).setOnItemClickListener(object : MyListAdapter.ClickListener {
+                override fun onClick(pos: Int, aView: View) {
+                    deleteRecord(view)
+
+                }
+            })
 
         }
         deleterecord.setOnClickListener(){
