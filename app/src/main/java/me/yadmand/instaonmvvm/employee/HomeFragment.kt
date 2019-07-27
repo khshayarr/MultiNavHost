@@ -11,7 +11,6 @@ import android.widget.ListAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.FragmentActivity
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.fragment_home.*
@@ -20,7 +19,6 @@ import androidx.lifecycle.ViewModelProviders
 import me.yadmand.instaonmvvm.util.MyListAdapter
 
 import androidx.recyclerview.widget.RecyclerView
-import me.yadmand.instaonmvvm.data.DatabaseHandler
 import me.yadmand.instaonmvvm.data.EmpModelClass
 import me.yadmand.instaonmvvm.util.Injector
 
@@ -86,17 +84,15 @@ class HomeFragment : BaseFragment() {
         val factory = Injector.provideEmpViewModelFactory(getActivity()!!)
         val viewModel = ViewModelProviders.of(this, factory)
                 .get(EmpViewModel::class.java)
-        val empArrayId = arrayOf<String>()
-        val empArrayName = arrayOf<String>()
-        val empArrayEmail = arrayOf<String>()
-        var index = 0
-        viewModel.getEmp().observe(this, Observer { emp ->
-            val stringBuilder = StringBuilder()
-            empArrayId[index] = emp.userId.toString()
-            empArrayName[index] = emp.userName
-            empArrayEmail[index] = emp.userEmail
-            index++
-
+        val empArrayId = arrayListOf<String>()
+        val empArrayName = arrayListOf<String>()
+        val empArrayEmail = arrayListOf<String>()
+        viewModel.getEmp().observe(this, Observer { emps ->
+            emps.forEach { emp ->
+                empArrayId.add(emp.userId.toString())
+                empArrayName.add(emp.userName)
+                empArrayEmail.add(emp.userEmail)
+            }
         })
         val myListAdapter = MyListAdapter(getActivity()!!, empArrayId, empArrayName, empArrayEmail)
 

@@ -1,6 +1,6 @@
 package me.yadmand.instaonmvvm.data
 
-class EmpRepository(private val empDao: EmpDao) {
+class EmpRepository private constructor(private val empDao: EmpDao) {
 
     fun addEmployee(emp: EmpModelClass) = empDao.addEmployee(emp)
     fun viewEmployee() = empDao.viewEmployee()

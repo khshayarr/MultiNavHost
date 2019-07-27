@@ -58,7 +58,7 @@ class EmpDao (context: FragmentActivity?): SQLiteOpenHelper(context,DATABASE_NAM
         return success
     }
     //method to read data
-    fun viewEmployee(): LiveData<EmpModelClass> {
+    fun viewEmployee(): LiveData<List<EmpModelClass>> {
 
         val selectQuery = "SELECT  * FROM ${EmpDao.TABLE_CONTACTS}"
         val db = this.readableDatabase
@@ -67,7 +67,7 @@ class EmpDao (context: FragmentActivity?): SQLiteOpenHelper(context,DATABASE_NAM
             cursor = db.rawQuery(selectQuery, null)
         }catch (e: SQLiteException) {
             db.execSQL(selectQuery)
-            return emps as LiveData<EmpModelClass>
+            return emps as LiveData<List<EmpModelClass>>
         }
         var userId: Int
         var userName: String
@@ -81,7 +81,7 @@ class EmpDao (context: FragmentActivity?): SQLiteOpenHelper(context,DATABASE_NAM
                 empList.add(emp)
             } while (cursor.moveToNext())
         }
-        return emps as LiveData<EmpModelClass>
+        return emps as LiveData<List<EmpModelClass>>
     }
     //method to update data
     fun updateEmployee(emp: EmpModelClass):Int{

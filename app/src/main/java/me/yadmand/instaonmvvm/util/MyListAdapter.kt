@@ -8,7 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import me.yadmand.instaonmvvm.R
 
-class MyListAdapter(private val context: Activity, private val id: Array<String>, private val name: Array<String>, private val email: Array<String>)
+class MyListAdapter(private val context: Activity, private val id: ArrayList<String>, private val name: ArrayList<String>, private val email: ArrayList<String>)
     : RecyclerView.Adapter<MyListAdapter.ViewHolder>() {
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val inflater = context.layoutInflater

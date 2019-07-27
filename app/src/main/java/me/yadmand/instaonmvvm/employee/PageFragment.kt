@@ -10,7 +10,7 @@ import kotlinx.android.synthetic.main.fragment_page.buttonNextPage
 import kotlinx.android.synthetic.main.fragment_page.message
 import me.yadmand.instaonmvvm.NavigationGraphMainDirections
 import me.yadmand.instaonmvvm.R
-import me.yadmand.instaonmvvm.fragments.PageFragmentArgs
+
 
 class PageFragment : BaseFragment() {
 
