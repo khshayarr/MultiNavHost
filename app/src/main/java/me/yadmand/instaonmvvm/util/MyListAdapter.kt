@@ -9,10 +9,12 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import me.yadmand.instaonmvvm.R
+import me.yadmand.instaonmvvm.data.EmpModelClass
 import me.yadmand.instaonmvvm.employee.HomeFragment
 
 class MyListAdapter(private val context: Activity, private val id: ArrayList<String>, private val name: ArrayList<String>, private val email: ArrayList<String>)
     : RecyclerView.Adapter<MyListAdapter.ViewHolder>() {
+
     lateinit var mClickListener: ClickListener
 
     fun setOnItemClickListener(aClickListener: ClickListener) {
@@ -59,8 +61,10 @@ class MyListAdapter(private val context: Activity, private val id: ArrayList<Str
             emailText.text = email
 
 
+
         }
         override fun onClick(v: View) {
+
             mClickListener.onClick(adapterPosition, v)
         }
 

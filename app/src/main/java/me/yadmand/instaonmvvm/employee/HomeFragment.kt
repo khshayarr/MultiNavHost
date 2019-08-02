@@ -24,6 +24,8 @@ import me.yadmand.instaonmvvm.util.Injector
 
 
 class HomeFragment : BaseFragment() {
+    var items: MutableList<EmpModelClass> = arrayListOf()
+
     var mListRecyclerView: RecyclerView? = null
     var mAdapter: ListAdapter? = null
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -35,25 +37,24 @@ class HomeFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         mListRecyclerView = view.findViewById(R.id.list_recycler_view);
         mListRecyclerView!!.setLayoutManager(LinearLayoutManager(getActivity()));
-        saverecord.setOnClickListener(){
+        saverecord.setOnClickListener() {
             saveRecord(view)
 
         }
-        viewrecord.setOnClickListener(){
-           mListRecyclerView?.adapter= viewRecord(view)
+        viewrecord.setOnClickListener() {
+            mListRecyclerView?.adapter = viewRecord(view)
             (mListRecyclerView?.adapter as MyListAdapter).setOnItemClickListener(object : MyListAdapter.ClickListener {
                 override fun onClick(pos: Int, aView: View) {
-                    updateRecord(aView)
-                    viewRecord(aView)
-
+                    updateReadyRecord(items.get(pos),aView)
+                    mListRecyclerView?.adapter = viewRecord(view)
                 }
             })
 
         }
-        deleterecord.setOnClickListener(){
+        deleterecord.setOnClickListener() {
             deleteRecord(view)
         }
-        updaterecord.setOnClickListener(){
+        updaterecord.setOnClickListener() {
             updateRecord(view)
         }
         /*
@@ -84,9 +85,11 @@ class HomeFragment : BaseFragment() {
         }
 
     }
+    fun viewObserver(){
 
+    }
     //method for read records from database in ListView
-    fun  viewRecord (view: View) :MyListAdapter {
+    fun viewRecord(view: View): MyListAdapter {
         //creating the instance of DatabaseHandler class
         val factory = Injector.provideEmpViewModelFactory(getActivity()!!)
         val viewModel = ViewModelProviders.of(this, factory)
@@ -96,14 +99,70 @@ class HomeFragment : BaseFragment() {
         val empArrayEmail = arrayListOf<String>()
         viewModel.getEmp().observe(this, Observer { emps ->
             emps.forEach { emp ->
-                empArrayId.add(emp.userId.toString())
-                empArrayName.add(emp.userName)
-                empArrayEmail.add(emp.userEmail)
+                if (empArrayId.isEmpty() || !empArrayId.contains(emp.userId.toString()))
+                    empArrayId.add(emp.userId.toString())
+                    empArrayName.add(emp.userName)
+                    empArrayEmail.add(emp.userEmail)
+                if(items.size>0){
+
+                    items.forEach {
+                        if(it.userId== id.toInt()){
+                           items.remove(it)
+                        }
+                    }
+                    items.add(emp)
+                }else{
+                    items.add(emp)
+                }
             }
         })
         val myListAdapter = MyListAdapter(getActivity()!!, empArrayId, empArrayName, empArrayEmail)
 
         return myListAdapter
+    }
+    //method for updating records based on user id
+    fun updateReadyRecord(emp:EmpModelClass,view: View) {
+        val factory = Injector.provideEmpViewModelFactory(getActivity()!!)
+        val viewModel = ViewModelProviders.of(this, factory)
+                .get(EmpViewModel::class.java)
+        val dialogBuilder = AlertDialog.Builder(getActivity()!!)
+        val inflater = this.layoutInflater
+        val dialogView = inflater.inflate(R.layout.update_dialog, null)
+        dialogBuilder.setView(dialogView)
+
+        val edtId = dialogView.findViewById(R.id.updateId) as EditText
+        val edtName = dialogView.findViewById(R.id.updateName) as EditText
+        val edtEmail = dialogView.findViewById(R.id.updateEmail) as EditText
+        edtId.setText(emp.userId.toString())
+        edtName.setText(emp.userName)
+        edtEmail.setText(emp.userEmail)
+        dialogBuilder.setTitle("Update Record")
+        dialogBuilder.setMessage("Enter data below")
+        dialogBuilder.setPositiveButton("Update", DialogInterface.OnClickListener { _, _ ->
+
+            val updateId = edtId.text.toString()
+            val updateName = edtName.text.toString()
+            val updateEmail = edtEmail.text.toString()
+            //creating the instance of DatabaseHandler class
+            val context: FragmentActivity? = getActivity()
+
+            if (updateId.trim() != "" && updateName.trim() != "" && updateEmail.trim() != "") {
+                //calling the updateEmployee method of DatabaseHandler class to update record
+                val status = viewModel.updateEmp(EmpModelClass(Integer.parseInt(updateId), updateName, updateEmail))
+                if (status > -1) {
+                    Toast.makeText(getActivity(), "record update", Toast.LENGTH_LONG).show()
+                    viewRecord(view)
+                }
+            } else {
+                Toast.makeText(getActivity(), "id or name or email cannot be blank", Toast.LENGTH_LONG).show()
+            }
+
+        })
+        dialogBuilder.setNegativeButton("Cancel", DialogInterface.OnClickListener { dialog, which ->
+            //pass
+        })
+        val b = dialogBuilder.create()
+        b.show()
     }
 
     //method for updating records based on user id

@@ -74,11 +74,18 @@ class EmpDao (context: FragmentActivity?): SQLiteOpenHelper(context,DATABASE_NAM
         var userEmail: String
         if (cursor.moveToFirst()) {
             do {
+                var insert =false
                 userId = cursor.getInt(cursor.getColumnIndex("id"))
                 userName = cursor.getString(cursor.getColumnIndex("name"))
                 userEmail = cursor.getString(cursor.getColumnIndex("email"))
                 val emp= EmpModelClass(userId = userId, userName = userName, userEmail = userEmail)
-                empList.add(emp)
+                empList.forEach {
+                    if (it.userId==userId){
+                       empList.remove(it)
+                    }
+                }
+                    empList.add(emp)
+
             } while (cursor.moveToNext())
         }
         return emps as LiveData<List<EmpModelClass>>
