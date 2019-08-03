@@ -2,6 +2,7 @@ package me.yadmand.instaonmvvm.employee
 
 import android.content.Context
 import android.content.DialogInterface
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ListAdapter
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
@@ -33,6 +35,7 @@ class HomeFragment : BaseFragment() {
         return view;
     }
 
+    @RequiresApi(Build.VERSION_CODES.N)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         mListRecyclerView = view.findViewById(R.id.list_recycler_view);
@@ -46,7 +49,6 @@ class HomeFragment : BaseFragment() {
             (mListRecyclerView?.adapter as MyListAdapter).setOnItemClickListener(object : MyListAdapter.ClickListener {
                 override fun onClick(pos: Int, aView: View) {
                     updateReadyRecord(items.get(pos),aView)
-                    mListRecyclerView?.adapter = viewRecord(view)
                 }
             })
 
@@ -89,6 +91,7 @@ class HomeFragment : BaseFragment() {
 
     }
     //method for read records from database in ListView
+    @RequiresApi(Build.VERSION_CODES.N)
     fun viewRecord(view: View): MyListAdapter {
         //creating the instance of DatabaseHandler class
         val factory = Injector.provideEmpViewModelFactory(getActivity()!!)
@@ -104,16 +107,9 @@ class HomeFragment : BaseFragment() {
                     empArrayName.add(emp.userName)
                     empArrayEmail.add(emp.userEmail)
                 if(items.size>0){
-
-                    items.forEach {
-                        if(it.userId== id.toInt()){
-                           items.remove(it)
-                        }
-                    }
-                    items.add(emp)
-                }else{
-                    items.add(emp)
+                    items.removeIf { it.userId == emp.userId}
                 }
+                items.add(emp)
             }
         })
         val myListAdapter = MyListAdapter(getActivity()!!, empArrayId, empArrayName, empArrayEmail)
@@ -151,7 +147,6 @@ class HomeFragment : BaseFragment() {
                 val status = viewModel.updateEmp(EmpModelClass(Integer.parseInt(updateId), updateName, updateEmail))
                 if (status > -1) {
                     Toast.makeText(getActivity(), "record update", Toast.LENGTH_LONG).show()
-                    viewRecord(view)
                 }
             } else {
                 Toast.makeText(getActivity(), "id or name or email cannot be blank", Toast.LENGTH_LONG).show()

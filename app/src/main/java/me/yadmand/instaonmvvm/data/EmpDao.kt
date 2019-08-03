@@ -5,6 +5,8 @@ import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteException
 import android.database.sqlite.SQLiteOpenHelper
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -58,6 +60,7 @@ class EmpDao (context: FragmentActivity?): SQLiteOpenHelper(context,DATABASE_NAM
         return success
     }
     //method to read data
+    @RequiresApi(Build.VERSION_CODES.N)
     fun viewEmployee(): LiveData<List<EmpModelClass>> {
 
         val selectQuery = "SELECT  * FROM ${EmpDao.TABLE_CONTACTS}"
@@ -79,13 +82,10 @@ class EmpDao (context: FragmentActivity?): SQLiteOpenHelper(context,DATABASE_NAM
                 userName = cursor.getString(cursor.getColumnIndex("name"))
                 userEmail = cursor.getString(cursor.getColumnIndex("email"))
                 val emp= EmpModelClass(userId = userId, userName = userName, userEmail = userEmail)
-                empList.forEach {
-                    if (it.userId==userId){
-                       empList.remove(it)
-                    }
+                if(empList.size>0){
+                    empList.removeIf{ it.userId==userId }
                 }
-                    empList.add(emp)
-
+                empList.add(emp)
             } while (cursor.moveToNext())
         }
         return emps as LiveData<List<EmpModelClass>>
